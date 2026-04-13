@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="hi-IN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Check Eligibility - IPL Official</title>
+    <link rel="stylesheet" href="quiz.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="quiz-container">
+        <!-- Progress Bar -->
+        <div class="progress-wrapper">
+            <div class="progress-text">Step <span id="current-step">1</span> of 3</div>
+            <div class="progress-bar">
+                <div id="progress-fill" class="progress-fill" style="width: 33%;"></div>
+            </div>
+        </div>
+
+        <!-- Step 1 -->
+        <div id="step-1" class="quiz-step active">
+            <h1>Quick Check Before You Start Earning 💰</h1>
+            <p class="subtitle">We need to confirm if you are eligible for this IPL earning method.</p>
+            
+            <div class="question-box">
+                <p class="question">Are you 18+ and from India?</p>
+                <div class="options">
+                    <button class="opt-btn" onclick="nextStep(2)">Yes ✅</button>
+                    <button class="opt-btn" onclick="alert('Only for India & 18+')">No ❌</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div id="step-2" class="quiz-step">
+            <h1>Payment Verification</h1>
+            <p class="subtitle">Choose your preferred withdrawal method.</p>
+            
+            <div class="question-box">
+                <p class="question">Which payment method do you use?</p>
+                <div class="options">
+                    <button class="opt-btn highlight-opt" onclick="nextStep(3)">UPI (GPay / PhonePe / Paytm)</button>
+                    <button class="opt-btn" onclick="nextStep(3)">Bank Transfer</button>
+                    <button class="opt-btn" onclick="nextStep(3)">Other</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div id="step-3" class="quiz-step">
+            <h1>Financial Goal</h1>
+            <p class="subtitle">How much would you like to earn daily?</p>
+            
+            <div class="question-box">
+                <p class="question">How much would you like to start with?</p>
+                <div class="options">
+                    <button class="opt-btn" onclick="processResults()">₹100</button>
+                    <button class="opt-btn" onclick="processResults()">₹300</button>
+                    <button class="opt-btn" onclick="processResults()">₹500+</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loader Section -->
+        <div id="loader-step" class="quiz-step">
+            <div class="loader-content">
+                <div class="spinner"></div>
+                <div id="loader-text" class="loader-text">Checking availability in your region...</div>
+            </div>
+        </div>
+
+        <!-- Result Section -->
+        <div id="result-step" class="quiz-step">
+            <div class="success-icon">✅</div>
+            <h1 class="success-title">You Are Eligible!</h1>
+            <p class="success-desc">You have been selected for a limited IPL earning slot.</p>
+            
+            <div class="bonus-box">
+                <p>🎁 <strong>₹500 bonus</strong> is unlocked for your account</p>
+            </div>
+
+            <div class="cta-section" id="final-cta" style="display: none;">
+                <button class="cta-btn primary pulse" onclick="redirectToOffer()">Continue to Secure Your Spot</button>
+                <p class="subtext">Takes less than 30 seconds | Instant UPI withdrawal enabled</p>
+            </div>
+        </div>
+
+        <!-- Trust Elements -->
+        <footer class="trust-boosters">
+            <div class="trust-item">🔒 Encrypted & Secure</div>
+            <div class="trust-item">⚡ Instant Withdrawals</div>
+            <div class="trust-item">👥 Trusted by 50,000+ Indians</div>
+        </footer>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notification-container"></div>
+
+    <script src="quiz.js"></script>
+</body>
+</html>
