@@ -1,103 +1,102 @@
-let currentStep = 1;
+const quizSteps = {
+    current: 1,
+    total: 3
+};
 
 function nextStep(step) {
     // Hide current step
-    document.getElementById(`step-${currentStep}`).classList.remove('active');
+    document.getElementById(`step-${quizSteps.current}`).classList.remove('active');
     
-    // Show next step
-    currentStep = step;
-    document.getElementById(`step-${currentStep}`).classList.add('active');
+    // Show new step
+    document.getElementById(`step-${step}`).classList.add('active');
+    quizSteps.current = step;
     
-    // Update progress bar
-    const progress = (currentStep / 3) * 100;
-    document.getElementById('progress-fill').style.width = `${progress}%`;
-    document.getElementById('current-step').textContent = currentStep;
+    // Update progress
+    const progressPerc = (step / quizSteps.total) * 100;
+    document.getElementById('progress-fill').style.width = `${progressPerc}%`;
+    document.getElementById('step-indicator').innerText = `STEP ${step} OF ${quizSteps.total}`;
 }
 
-function processResults() {
-    // Hide Step 3
-    document.getElementById(`step-3`).classList.remove('active');
+function startProcessing() {
+    // Hide quiz
+    document.getElementById(`step-${quizSteps.current}`).classList.remove('active');
     
-    // Show Loader
-    document.getElementById('loader-step').classList.add('active');
+    // Update header
+    document.getElementById('bridge-title').innerText = "Processing Your Access";
+    document.getElementById('bridge-subtitle').innerText = "Analyzing availability and bonuses...";
     
-    const loaderText = document.getElementById('loader-text');
-    const messages = [
-        "Checking availability in your region...",
-        "Verifying IPL access...",
-        "Confirming bonus eligibility..."
+    // Show loader
+    document.getElementById('processing-screen').classList.add('active');
+    
+    const statusText = document.getElementById('loading-status');
+    const scenarios = [
+        "Checking availability...",
+        "Loading live matches...",
+        "Preparing your exclusive bonus...",
+        "Finalizing secure access..."
     ];
     
-    let msgIdx = 0;
+    let i = 0;
     const interval = setInterval(() => {
-        msgIdx++;
-        if (msgIdx < messages.length) {
-            loaderText.textContent = messages[msgIdx];
+        if (i < scenarios.length) {
+            statusText.innerText = scenarios[i];
+            i++;
         } else {
             clearInterval(interval);
-            showFinalResult();
+            showResult();
         }
+    }, 600);
+}
+
+function showResult() {
+    document.getElementById('processing-screen').classList.remove('active');
+    document.getElementById('result-screen').classList.add('active');
+    
+    // Update header
+    document.getElementById('bridge-title').innerText = "Setup Complete";
+    document.getElementById('bridge-subtitle').innerText = "Your account access is ready.";
+    
+    // Attach redirect logic to final button
+    document.getElementById('final-cta').addEventListener('click', startRedirect);
+}
+
+function startRedirect() {
+    const overlay = document.getElementById('redirect-overlay');
+    overlay.style.display = 'flex';
+    
+    const statusText = document.getElementById('redirect-status');
+    
+    setTimeout(() => {
+        statusText.innerText = "Redirecting to live platform...";
+        setTimeout(() => {
+            performFinalRedirect();
+        }, 1200);
     }, 1000);
 }
 
-function showFinalResult() {
-    // Hide Loader
-    document.getElementById('loader-step').classList.remove('active');
+function performFinalRedirect() {
+    // Get click_id from session storage (saved in main.js) or URL
+    const clickId = sessionStorage.getItem('click_id') || 
+                  new URLSearchParams(window.location.search).get('click_id') || 
+                  'default_cid';
     
-    // Show Result
-    document.getElementById('result-step').classList.add('active');
-    
-    // Delayed CTA appearance
-    setTimeout(() => {
-        document.getElementById('final-cta').style.display = 'block';
-    }, 1500);
-}
-
-function redirectToOffer() {
-    // Get all current URL parameters
-    const urlParams = new URLSearchParams(window.location.search);
-    
-    // Define the main offer URL (placeholder)
-    const offerUrl = "https://official-ipl-earning-app.com/register";
-    
-    // Append tracking parameters if they exist
-    const finalUrl = new URL(offerUrl);
-    urlParams.forEach((value, key) => {
-        finalUrl.searchParams.set(key, value);
+    const baseUrl = "https://paripesain.asia/en/registration";
+    const params = new URLSearchParams({
+        tag: 'd_5208844m_45569c_',
+        pb: '39956e825223459d9724e20460d0b1b0',
+        click_id: clickId,
+        type: 'fast',
+        bonus: 'SPORT',
+        currency: 'INR'
     });
     
-    // Redirect
-    console.log("Redirecting to:", finalUrl.toString());
-    window.location.href = finalUrl.toString();
+    window.location.href = `${baseUrl}?${params.toString()}`;
 }
 
-// Floating Notifications
-const notifications = [
-    { name: "Rohit from Mumbai", action: "just joined" },
-    { name: "Ankit", action: "earned ₹950" },
-    { name: "Sunil from Delhi", action: "joined now" },
-    { name: "Megha from Pune", action: "withdrew ₹1,500" }
-];
-
-function showNotification() {
-    const container = document.getElementById('notification-container');
-    const note = notifications[Math.floor(Math.random() * notifications.length)];
-    
-    const div = document.createElement('div');
-    div.className = 'notification';
-    div.innerHTML = `<span><strong>${note.name}</strong> ${note.action}</span>`;
-    
-    container.appendChild(div);
-    
-    setTimeout(() => {
-        div.remove();
-    }, 3000);
-}
-
-window.onload = function() {
-    // Initial notification
-    setTimeout(showNotification, 2000);
-
-    // Repeat notifications
-    setInterval(showNotification, 6000);
-};
+// Ensure click_id is captured if directly landed on quiz
+document.addEventListener('DOMContentLoaded', () => {
+    const clickId = new URLSearchParams(window.location.search).get('click_id');
+    if (clickId) {
+        sessionStorage.setItem('click_id', clickId);
+    }
+});

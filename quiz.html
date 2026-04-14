@@ -1,103 +1,90 @@
 <!DOCTYPE html>
-<html lang="hi-IN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Check Eligibility - IPL Official</title>
-    <link rel="stylesheet" href="quiz.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>Quick Setup - Access Sports Gaming</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="quiz-container">
-        <!-- Progress Bar -->
-        <div class="progress-wrapper">
-            <div class="progress-text">Step <span id="current-step">1</span> of 3</div>
-            <div class="progress-bar">
-                <div id="progress-fill" class="progress-fill" style="width: 33%;"></div>
+    <header class="top-header">
+        <div class="container">
+            <div class="logo-text">SPORTS<span>HUB</span></div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="step-header">
+            <h1 id="bridge-title">Quick Setup Before You Start</h1>
+            <p id="bridge-subtitle" class="subheadline">Takes less than 30 seconds</p>
+            
+            <div class="progress-bar-container">
+                <div id="progress-fill" class="progress-fill"></div>
             </div>
+            <div id="step-indicator" style="font-size: 0.8rem; font-weight: 700; color: var(--accent-color);">STEP 1 OF 3</div>
         </div>
 
-        <!-- Step 1 -->
-        <div id="step-1" class="quiz-step active">
-            <h1>Quick Check Before You Start Earning 💰</h1>
-            <p class="subtitle">We need to confirm if you are eligible for this IPL earning method.</p>
-            
-            <div class="question-box">
-                <p class="question">Are you 18+ and from India?</p>
-                <div class="options">
-                    <button class="opt-btn" onclick="nextStep(2)">Yes ✅</button>
-                    <button class="opt-btn" onclick="alert('Only for India & 18+')">No ❌</button>
+        <div id="quiz-container" class="quiz-container">
+            <!-- Question 1 -->
+            <div id="step-1" class="quiz-step active">
+                <div class="card">
+                    <h3>Are you 18+ and ready to access live sports gaming?</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 20px;">Verification required for platform safety.</p>
+                    <button class="option-btn" onclick="nextStep(2)">Yes, I am 18+</button>
+                    <button class="option-btn" onclick="alert('Sorry, this platform is for 18+ only.')">No</button>
+                </div>
+            </div>
+
+            <!-- Question 2 -->
+            <div id="step-2" class="quiz-step">
+                <div class="card">
+                    <h3>Preferred way to get started?</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 20px;">Personalize your initial experience.</p>
+                    <button class="option-btn" onclick="nextStep(3)">Quick signup (Recommended)</button>
+                    <button class="option-btn" onclick="nextStep(3)">Explore matches first</button>
+                </div>
+            </div>
+
+            <!-- Question 3 -->
+            <div id="step-3" class="quiz-step">
+                <div class="card">
+                    <h3>Choose your starting level</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 20px;">We'll tailor the dashboard for you.</p>
+                    <button class="option-btn" onclick="startProcessing()">Beginner</button>
+                    <button class="option-btn" onclick="startProcessing()">Regular</button>
+                    <button class="option-btn" onclick="startProcessing()">Active Pro</button>
+                </div>
+            </div>
+
+            <!-- Processing Screen -->
+            <div id="processing-screen" class="quiz-step">
+                <div class="loader-screen">
+                    <div class="spinner"></div>
+                    <div id="loading-status" class="loading-text">Checking availability...</div>
+                </div>
+            </div>
+
+            <!-- Result Screen -->
+            <div id="result-screen" class="quiz-step">
+                <div class="card" style="text-align: center; border-color: var(--accent-color);">
+                    <div class="success-check">✓</div>
+                    <h2>Access Ready</h2>
+                    <p class="subheadline" style="margin-bottom: 30px;">You can now proceed to create your account and explore live matches.</p>
+                    <button id="final-cta" class="btn btn-primary pulse">Continue to Registration</button>
+                    <p style="margin-top: 15px; font-size: 0.8rem; color: var(--text-secondary);">
+                        Quick signup • Instant access
+                    </p>
                 </div>
             </div>
         </div>
+    </main>
 
-        <!-- Step 2 -->
-        <div id="step-2" class="quiz-step">
-            <h1>Payment Verification</h1>
-            <p class="subtitle">Choose your preferred withdrawal method.</p>
-            
-            <div class="question-box">
-                <p class="question">Which payment method do you use?</p>
-                <div class="options">
-                    <button class="opt-btn highlight-opt" onclick="nextStep(3)">UPI (GPay / PhonePe / Paytm)</button>
-                    <button class="opt-btn" onclick="nextStep(3)">Bank Transfer</button>
-                    <button class="opt-btn" onclick="nextStep(3)">Other</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Step 3 -->
-        <div id="step-3" class="quiz-step">
-            <h1>Financial Goal</h1>
-            <p class="subtitle">How much would you like to earn daily?</p>
-            
-            <div class="question-box">
-                <p class="question">How much would you like to start with?</p>
-                <div class="options">
-                    <button class="opt-btn" onclick="processResults()">₹100</button>
-                    <button class="opt-btn" onclick="processResults()">₹300</button>
-                    <button class="opt-btn" onclick="processResults()">₹500+</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Loader Section -->
-        <div id="loader-step" class="quiz-step">
-            <div class="loader-content">
-                <div class="spinner"></div>
-                <div id="loader-text" class="loader-text">Checking availability in your region...</div>
-            </div>
-        </div>
-
-        <!-- Result Section -->
-        <div id="result-step" class="quiz-step">
-            <div class="success-icon">✅</div>
-            <h1 class="success-title">You Are Eligible!</h1>
-            <p class="success-desc">You have been selected for a limited IPL earning slot.</p>
-            
-            <div class="bonus-box">
-                <p>🎁 <strong>₹500 bonus</strong> is unlocked for your account</p>
-            </div>
-
-            <div class="cta-section" id="final-cta" style="display: none;">
-                <button class="cta-btn primary pulse" onclick="redirectToOffer()">Continue to Secure Your Spot</button>
-                <p class="subtext">Takes less than 30 seconds | Instant UPI withdrawal enabled</p>
-            </div>
-        </div>
-
-        <!-- Trust Elements -->
-        <footer class="trust-boosters">
-            <div class="trust-item">🔒 Encrypted & Secure</div>
-            <div class="trust-item">⚡ Instant Withdrawals</div>
-            <div class="trust-item">👥 Trusted by 50,000+ Indians</div>
-        </footer>
+    <!-- Transition/Redirect Overlay -->
+    <div id="redirect-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); z-index: 2000; align-items: center; justify-content: center; flex-direction: column; text-align: center;">
+        <div class="spinner"></div>
+        <div id="redirect-status" class="loading-text">Connecting to secure server...</div>
     </div>
-
-    <!-- Notification Container -->
-    <div id="notification-container"></div>
 
     <script src="quiz.js"></script>
 </body>
