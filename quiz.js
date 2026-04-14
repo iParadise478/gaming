@@ -75,28 +75,32 @@ function startRedirect() {
 }
 
 function performFinalRedirect() {
-    // Get click_id from session storage (saved in main.js) or URL
+    // Get parameters from session storage (saved in main.js) or URL
     const clickId = sessionStorage.getItem('click_id') || 
                   new URLSearchParams(window.location.search).get('click_id') || 
-                  'default_cid';
+                  '{click_id}'; // Fallback to placeholder if missing
     
-    const baseUrl = "https://paripesain.asia/en/registration";
+    const txnId = sessionStorage.getItem('txn') || 
+                new URLSearchParams(window.location.search).get('txn') || 
+                '{txn_id}'; // Fallback to placeholder if missing
+    
+    const baseUrl = "https://auctera.gotrackier.com/click";
     const params = new URLSearchParams({
-        tag: 'd_5208844m_45569c_',
-        pb: '39956e825223459d9724e20460d0b1b0',
+        campaign_id: '2498',
+        pub_id: '679',
         click_id: clickId,
-        type: 'fast',
-        bonus: 'SPORT',
-        currency: 'INR'
+        txn: txnId
     });
     
     window.location.href = `${baseUrl}?${params.toString()}`;
 }
 
-// Ensure click_id is captured if directly landed on quiz
+// Ensure parameters are captured if directly landed on quiz
 document.addEventListener('DOMContentLoaded', () => {
-    const clickId = new URLSearchParams(window.location.search).get('click_id');
-    if (clickId) {
-        sessionStorage.setItem('click_id', clickId);
-    }
+    const urlParams = new URLSearchParams(window.location.search);
+    const clickId = urlParams.get('click_id');
+    const txn = urlParams.get('txn');
+    
+    if (clickId) sessionStorage.setItem('click_id', clickId);
+    if (txn) sessionStorage.setItem('txn', txn);
 });

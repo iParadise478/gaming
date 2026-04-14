@@ -15,6 +15,9 @@ const AppConfig = {
         if (params.has('click_id')) {
             sessionStorage.setItem('click_id', params.get('click_id'));
         }
+        if (params.has('txn')) {
+            sessionStorage.setItem('txn', params.get('txn'));
+        }
     }
 };
 
